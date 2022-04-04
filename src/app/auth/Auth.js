@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { GoogleLogin } from "react-google-login";
-import { refreshTokenSetup } from "../services/googleAuthRefresh";
+import { refreshTokenSetup } from "../../services/googleRefreshTokens";
 import { useNavigate } from "react-router-dom";
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
@@ -12,8 +12,10 @@ export const LoginPrompt = () => {
     const {
       profileObj: { name },
     } = res;
-    localStorage.setItem("username", name);
-    navigate("/profile");
+
+    navigate("/dashboard");
+    // send the data collected to the server
+    // if it exist, welcome them else save their data
     refreshTokenSetup(res);
   };
 
@@ -51,7 +53,7 @@ export const Login = () => {
         flexDirection: "column",
       }}
     >
-      <h1 style={{ marginBottom: "50px" }}>LOGIN IN INTO YOUR ACCOUNT</h1>
+      <h1 style={{ marginBottom: "50px" }}>Welcome To Bookr Todo</h1>
 
       <LoginPrompt />
     </div>
