@@ -3,7 +3,7 @@ import CheckboxesTags from "./SearchBar";
 import { MainViewWrapper, SearchBarWrapper } from "./styles";
 import { Todos } from "./Todos";
 
-export const MainView = () => {
+export const MainView = (props) => {
   return (
     <>
       <MainViewWrapper>
@@ -11,7 +11,7 @@ export const MainView = () => {
           <CheckboxesTags />
           <Profile />
         </SearchBarWrapper>
-        <Todos />
+        <Todos {...props} />
       </MainViewWrapper>
     </>
   );

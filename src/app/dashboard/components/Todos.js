@@ -8,15 +8,47 @@ import {
   TodoTypes,
   TodoWrapper,
 } from "./styles";
+import PropTypes from "prop-types";
+import BasicCard from "./TodoCard";
+import EditDialog from "./EditModal";
+import DeleteDialog from "./DeleteModal";
 
-export const Todos = () => {
+export const Todos = (props) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const handleCloseEditModal = () => setOpenEditModal(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const handleCloseDeleteModal = () => setOpenDeleteModal(false);
+
+  const [currentTodo, setCurrentTodo] = useState({});
+  const { handleCreateTodo, todos, handleDelete, handleUpdateTodo } = props;
   const onCreate = (values) => {
-    console.log("THERE ARE VALUES", values);
-    //   async logic here
+    handleCreateTodo(values);
   };
+
+  const onClickDeleteIcon = (todo) => {
+    setCurrentTodo(todo);
+    setOpenDeleteModal(true);
+  };
+
+  const onEdit = (values) => {
+    handleUpdateTodo(values);
+  };
+
+  const onView = (todo) => {
+    setCurrentTodo(todo);
+    setOpenEditModal(true);
+  };
+
+  const onDelete = (id) => {
+    handleDelete(id);
+  };
+
+  const pendingTodos = todos.filter((todo) => todo.status === "created");
+  const inProgressTodos = todos.filter((todo) => todo.status === "in progress");
+  const completedTodos = todos.filter((todo) => todo.status === "completed");
 
   return (
     <TodoWrapper>
@@ -25,23 +57,45 @@ export const Todos = () => {
         <TodoBox>
           <TodoTypes>
             <p>To do</p>
-            <p>2</p>
+            <p>{pendingTodos.length || 0}</p>
           </TodoTypes>
           <TodoAdd onClick={handleOpen}> + </TodoAdd>
+          {pendingTodos.map((todo) => (
+            <BasicCard
+              todo={todo}
+              onView={onView}
+              onDelete={onClickDeleteIcon}
+              key={todo._id}
+            />
+          ))}
         </TodoBox>
         <TodoBox>
           <TodoTypes>
             <p>In Progress</p>
-            <p>2</p>
+            <p>{inProgressTodos.length || 0}</p>
           </TodoTypes>
-          <TodoAdd> + </TodoAdd>
+          {inProgressTodos.map((todo) => (
+            <BasicCard
+              todo={todo}
+              onView={onView}
+              onDelete={onClickDeleteIcon}
+              key={todo._id}
+            />
+          ))}
         </TodoBox>
         <TodoBox>
           <TodoTypes>
             <p>Completed</p>
-            <p>2</p>
+            <p>{completedTodos.length || 0}</p>
           </TodoTypes>
-          <TodoAdd> + </TodoAdd>
+          {completedTodos.map((todo) => (
+            <BasicCard
+              todo={todo}
+              onView={onView}
+              onDelete={onClickDeleteIcon}
+              key={todo._id}
+            />
+          ))}
         </TodoBox>
       </TodoBoxWrapper>
       <DraggableDialog
@@ -49,6 +103,22 @@ export const Todos = () => {
         open={open}
         handleClose={handleClose}
       />
+      <EditDialog
+        onEdit={onEdit}
+        handleClose={handleCloseEditModal}
+        open={openEditModal}
+        todo={currentTodo}
+      />
+      <DeleteDialog
+        onDelete={onDelete}
+        handleClose={handleCloseDeleteModal}
+        open={openDeleteModal}
+        todo={currentTodo}
+      />
     </TodoWrapper>
   );
+};
+
+Todos.propTypes = {
+  handleCreateTodo: PropTypes.func.isRequired,
 };

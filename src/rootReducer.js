@@ -1,10 +1,8 @@
 import { combineReducers } from "redux";
-// import authReducerSlice from "./pages/home/redux/reducer";
-// import dashboardReducer from "./pages/dashboard/redux/reducer";
+import todoReducerSlice from "./app/dashboard/redux/reducer";
 
 const rootReducers = combineReducers({
-  //   user: authReducerSlice,
-  //   dashboard: dashboardReducer,
+  todos: todoReducerSlice,
 });
 
 export default rootReducers;
