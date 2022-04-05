@@ -10,10 +10,12 @@ import {
 } from "./redux/reducer";
 import { useEffect } from "react";
 import { selectTodos } from "./redux/selector";
+import { selectUser } from "../auth/redux/selectors";
 
 export const Dashboard = () => {
   const dispatch = useDispatch();
   const todos = useSelector(selectTodos);
+  const loggedInUser = useSelector(selectUser);
 
   const handleCreateTodo = (values) => {
     dispatch(create_todo({ data: values }));
@@ -28,8 +30,8 @@ export const Dashboard = () => {
   };
 
   useEffect(() => {
-    dispatch(get_todos({ id: "Paul" }));
-  }, [dispatch]);
+    dispatch(get_todos({ id: loggedInUser.email }));
+  }, [dispatch, loggedInUser]);
   return (
     <DashboardLayout>
       <SideNav />
@@ -38,6 +40,7 @@ export const Dashboard = () => {
         handleUpdateTodo={handleUpdateTodo}
         handleDelete={handleDelete}
         todos={todos}
+        user={loggedInUser}
       />
     </DashboardLayout>
   );
