@@ -2,25 +2,26 @@ import { useEffect } from "react";
 import { GoogleLogin } from "react-google-login";
 import { refreshTokenSetup } from "../../services/googleRefreshTokens";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { register } from "./redux/reducer";
+import { toast } from "react-toastify";
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
 
 export const LoginPrompt = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSuccess = (res) => {
-    const {
-      profileObj: { name },
-    } = res;
+    const { profileObj } = res;
 
+    dispatch(register({ data: profileObj }));
     navigate("/dashboard");
-    // send the data collected to the server
-    // if it exist, welcome them else save their data
     refreshTokenSetup(res);
   };
 
   const onFailure = (res) => {
-    alert(`Failed to login. 😢 Please try again later`);
+    toast.error(`Failed to login. 😢 Please try again later`);
   };
 
   return (
