@@ -8,6 +8,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Paper from "@mui/material/Paper";
 import Draggable from "react-draggable";
 import { TextField } from "@mui/material";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../auth/redux/selectors";
 
 function PaperComponent(props) {
   return (
@@ -28,6 +30,7 @@ export default function DraggableDialog({ handleClose, open, onCreate }) {
     setTodoNote("");
     handleClose();
   };
+  const user = useSelector(selectUser);
   return (
     <div>
       <Dialog
@@ -81,7 +84,7 @@ export default function DraggableDialog({ handleClose, open, onCreate }) {
                 title: todo,
                 note: todoNote,
                 status: "created",
-                creator: "Paul",
+                creator: user.email,
               });
               cleanUp();
             }}
