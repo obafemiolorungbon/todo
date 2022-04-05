@@ -73,6 +73,7 @@ export const TodoBox = styled.div`
   width: 30%;
   border-radius: 0.75rem;
   padding: 1rem;
+  overflow: scroll;
 `;
 
 export const TodoHeader = styled.h1`
@@ -83,6 +84,7 @@ export const TodoTypes = styled.div`
   display: flex;
   justify-content: space-between;
   border-radius: 0.75rem;
+  margin-bottom: 1rem;
 
   & p {
     font-weight: 600;

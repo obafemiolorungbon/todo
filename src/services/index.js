@@ -11,7 +11,7 @@ export const dataService = {
   },
   postData: async (endpoint, payload) => {
     try {
-      const data = await axios.get(`${baseUrl}${endpoint}`);
+      const data = await axios.post(`${baseUrl}${endpoint}`, payload);
       return data.data;
     } catch (error) {
       console.log("AN ERROR OCCURED HERE", error.message);
@@ -19,7 +19,7 @@ export const dataService = {
   },
   putData: async (endpoint, payload) => {
     try {
-      const data = await axios.get(`${baseUrl}${endpoint}`);
+      const data = await axios.put(`${baseUrl}${endpoint}`, payload);
       return data.data;
     } catch (error) {
       console.log("AN ERROR OCCURED HERE", error.message);
@@ -27,7 +27,7 @@ export const dataService = {
   },
   deleteData: async (endpoint) => {
     try {
-      const data = await axios.get(`${baseUrl}${endpoint}`);
+      const data = await axios.delete(`${baseUrl}${endpoint}`);
       return data.data;
     } catch (error) {
       console.log("AN ERROR OCCURED HERE", error.message);

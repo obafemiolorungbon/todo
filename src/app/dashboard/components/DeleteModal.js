@@ -7,7 +7,13 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Paper from "@mui/material/Paper";
 import Draggable from "react-draggable";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
 function PaperComponent(props) {
   return (
@@ -20,12 +26,8 @@ function PaperComponent(props) {
   );
 }
 
-export default function DraggableDialog({ handleClose, open, onCreate }) {
-  const [todo, setTodo] = React.useState("");
-  const [todoNote, setTodoNote] = React.useState("");
+export default function DeleteDialog({ handleClose, open, onDelete, todo }) {
   const cleanUp = () => {
-    setTodo("");
-    setTodoNote("");
     handleClose();
   };
   return (
@@ -37,39 +39,12 @@ export default function DraggableDialog({ handleClose, open, onCreate }) {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
-          Create Todo
+          Delete Todo
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Kindly enter todo's title, as well as a small note on how to
-            complete it 🙂
+            Are you sure you want to delete this todo?
           </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="todo"
-            label="Todo Title"
-            type="text"
-            fullWidth
-            variant="standard"
-            value={todo}
-            onChange={(e) => {
-              setTodo(e.target.value);
-            }}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="note"
-            label="Todo Notes"
-            type="text"
-            fullWidth
-            value={todoNote}
-            onChange={(e) => {
-              setTodoNote(e.target.value);
-            }}
-            variant="standard"
-          />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={cleanUp}>
@@ -77,16 +52,13 @@ export default function DraggableDialog({ handleClose, open, onCreate }) {
           </Button>
           <Button
             onClick={() => {
-              onCreate({
-                title: todo,
-                note: todoNote,
-                status: "created",
-                creator: "Paul",
+              onDelete({
+                id: todo._id,
               });
               cleanUp();
             }}
           >
-            Create Todo
+            Delete Todo
           </Button>
         </DialogActions>
       </Dialog>

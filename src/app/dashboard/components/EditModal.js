@@ -7,7 +7,13 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Paper from "@mui/material/Paper";
 import Draggable from "react-draggable";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
 function PaperComponent(props) {
   return (
@@ -20,11 +26,17 @@ function PaperComponent(props) {
   );
 }
 
-export default function DraggableDialog({ handleClose, open, onCreate }) {
-  const [todo, setTodo] = React.useState("");
-  const [todoNote, setTodoNote] = React.useState("");
+export default function EditDialog({ handleClose, open, onEdit, todo }) {
+  const [todoNote, setTodoNote] = React.useState(todo?.note);
+  const [todoEdit, setTodoEdit] = React.useState(todo?.title);
+  const [todoStatus, setTodoStatus] = React.useState(todo?.status);
+
+  React.useEffect(() => {
+    setTodoNote(todo?.note);
+    setTodoEdit(todo?.title);
+    setTodoStatus(todo?.status);
+  }, [todo]);
   const cleanUp = () => {
-    setTodo("");
     setTodoNote("");
     handleClose();
   };
@@ -37,13 +49,10 @@ export default function DraggableDialog({ handleClose, open, onCreate }) {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
-          Create Todo
+          Edit Todo
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Kindly enter todo's title, as well as a small note on how to
-            complete it 🙂
-          </DialogContentText>
+          <DialogContentText>Change details about this Todo</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -52,9 +61,9 @@ export default function DraggableDialog({ handleClose, open, onCreate }) {
             type="text"
             fullWidth
             variant="standard"
-            value={todo}
+            value={todoEdit}
             onChange={(e) => {
-              setTodo(e.target.value);
+              setTodoEdit(e.target.value);
             }}
           />
           <TextField
@@ -69,7 +78,24 @@ export default function DraggableDialog({ handleClose, open, onCreate }) {
               setTodoNote(e.target.value);
             }}
             variant="standard"
+            sx={{ mb: 2 }}
           />
+          <FormControl>
+            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={todoStatus}
+              label="Status"
+              onChange={(e) => {
+                setTodoStatus(e.target.value);
+              }}
+            >
+              <MenuItem value={"created"}>Created</MenuItem>
+              <MenuItem value={"in progress"}>In Progress</MenuItem>
+              <MenuItem value={"completed"}>Completed</MenuItem>
+            </Select>
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={cleanUp}>
@@ -77,16 +103,19 @@ export default function DraggableDialog({ handleClose, open, onCreate }) {
           </Button>
           <Button
             onClick={() => {
-              onCreate({
-                title: todo,
-                note: todoNote,
-                status: "created",
-                creator: "Paul",
+              onEdit({
+                data: {
+                  title: todoEdit,
+                  note: todoNote,
+                  status: todoStatus,
+                  creator: "Paul",
+                },
+                id: todo._id,
               });
               cleanUp();
             }}
           >
-            Create Todo
+            Save Todo
           </Button>
         </DialogActions>
       </Dialog>
