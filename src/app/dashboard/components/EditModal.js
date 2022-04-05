@@ -108,7 +108,6 @@ export default function EditDialog({ handleClose, open, onEdit, todo }) {
                   title: todoEdit,
                   note: todoNote,
                   status: todoStatus,
-                  creator: "Paul",
                 },
                 id: todo._id,
               });

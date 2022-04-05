@@ -11,9 +11,13 @@ import {
 import { useEffect } from "react";
 import { selectTodos } from "./redux/selector";
 import { selectUser } from "../auth/redux/selectors";
+import { useNavigate } from "react-router-dom";
+import { register } from "../auth/redux/reducer";
 
 export const Dashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const todos = useSelector(selectTodos);
   const loggedInUser = useSelector(selectUser);
 
@@ -30,8 +34,19 @@ export const Dashboard = () => {
   };
 
   useEffect(() => {
-    dispatch(get_todos({ id: loggedInUser.email }));
-  }, [dispatch, loggedInUser]);
+    if (localStorage.getItem("email")) {
+      const userEmail = localStorage.getItem("email");
+      dispatch(get_todos({ id: userEmail }));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (localStorage.getItem("email")) {
+      dispatch(register({ data: { email: localStorage.getItem("email") } }));
+    } else {
+      navigate("/");
+    }
+  }, [navigate, dispatch]);
   return (
     <DashboardLayout>
       <SideNav />

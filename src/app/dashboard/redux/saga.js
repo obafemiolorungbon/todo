@@ -33,7 +33,6 @@ function* createTodo(action) {
     yield put({ type: create_todo_success.type, payload: response });
     toast.success("Todo created successfully");
   } catch (e) {
-    console.log("first error", e);
     yield put({
       type: api_call_failed.type,
     });

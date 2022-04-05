@@ -12,7 +12,6 @@ import { toast } from "react-toastify";
 function* registerUser(action) {
   try {
     const { data } = action.payload;
-    console.log("first", data);
     const response = yield call(dataService.postData, `user`, data);
     yield put({ type: register_success.type, payload: response });
   } catch (e) {

@@ -15,6 +15,9 @@ export const LoginPrompt = () => {
   const onSuccess = (res) => {
     const { profileObj } = res;
 
+    localStorage.setItem("email", profileObj.email);
+    localStorage.setItem("name", profileObj.email);
+
     dispatch(register({ data: profileObj }));
     navigate("/dashboard");
     refreshTokenSetup(res);
