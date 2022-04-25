@@ -8,6 +8,8 @@ In the project directory, you can run:
 
 ### `npm run start:dev`
 
+### `npm run test` to test features
+
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
@@ -19,4 +21,3 @@ You may also see any lint errors in the console.
      - logout
      - Stats
      - tests
-
