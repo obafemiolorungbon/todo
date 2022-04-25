@@ -57,7 +57,7 @@ export const Login = () => {
         flexDirection: "column",
       }}
     >
-      <h1 style={{ marginBottom: "50px" }}>Welcome To Bookr Todo</h1>
+      <h1 style={{ marginBottom: "50px" }}>Welcome To Bookr Todo: Homepage</h1>
 
       <LoginPrompt />
     </div>
