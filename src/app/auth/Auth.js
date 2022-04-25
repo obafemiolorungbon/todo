@@ -44,8 +44,9 @@ export const LoginPrompt = () => {
 
 export const Login = () => {
   useEffect(() => {
+    alert("Please login to continue");
     // check if they are not auth, push to login
-  });
+  }, []);
   return (
     <div
       style={{
