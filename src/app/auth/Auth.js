@@ -44,8 +44,9 @@ export const LoginPrompt = () => {
 
 export const Login = () => {
   useEffect(() => {
+    alert("Please login to proceed");
     // check if they are not auth, push to login
-  });
+  }, []);
   return (
     <div
       style={{
@@ -57,7 +58,7 @@ export const Login = () => {
         flexDirection: "column",
       }}
     >
-      <h1 style={{ marginBottom: "50px" }}>Welcome To Bookr Todo: Homepage</h1>
+      <h1 style={{ marginBottom: "50px" }}>Welcome To Bookr Todo</h1>
 
       <LoginPrompt />
     </div>
